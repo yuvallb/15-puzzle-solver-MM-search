@@ -1,59 +1,80 @@
+///////////////////////////////////////////////////////////////////////
+// Node.java - Class representing nodes in the search tree
+// Jeff Senecal
+// CS 482 Exercise #2
+
 import java.util.*;
 
 public class Node implements Comparable<Node> {
 	
-	private State s;
-	private Node back;
-	private byte op;
-	private short g, h;
+	private State s;	// The state for this node
+	private Node back;	// Back pointer
+	private byte op;	// Operator used to get to this node
+	private short g;	// Depth of node in search tree
+	private short h;	// Computed heuristic for node state
 	
-	private boolean bestFirst = false;
-	
+	///////////////////////////////////////////////////////////////////
+	// Constructor
 	public Node(State s, Node back, byte op, short h)
 	{
+		// Initialize member variables
 		this.s = s;
 		this.back = back;
 		this.op = op;
-		if (back == null || bestFirst)
+		this.h = h;
+		
+		// Set root node depth to 0, and child node depth to
+		// parent depth + 1
+		if (back == null)
 			this.g = 0;
 		else
 			this.g = (short)(back.g + 1);
-		this.h = h;
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Setter for back pointer
 	public void setBackPtr(Node back)
 	{
 		this.back = back;
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Setter for operator
 	public void setOp(byte op)
 	{
 		this.op = op;
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Computes and returns f = depth + heuristic
 	public short getF()
 	{
 		return (short)(g+h);
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Setter for tree depth
 	public void setG(short g)
 	{
-		if (bestFirst)
-			this.g = 0;
-		else
-			this.g = g;
+		this.g = g;
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Getter for tree depth
 	public short getG()
 	{
 		return g;
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Getter for state
 	public State getState()
 	{
 		return s;
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Recursively traverses back pointers to get path length
 	public int pathLength()
 	{
 		if (back == null)
@@ -62,6 +83,9 @@ public class Node implements Comparable<Node> {
 			return 1 + back.pathLength();
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Returns a string representing the path from initial state to
+	// the state of this node
 	public String pathToString()
 	{
 		if (back != null)
@@ -70,6 +94,10 @@ public class Node implements Comparable<Node> {
 			return "\nInitial State:\n" + s;
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Returns a string representing the path from the current node to
+	// the goal node, skipping the first node in the path to prevent
+	// printing the middle node twice
 	public String revPathToStringSkipFirst()
 	{
 		if (back != null)
@@ -78,6 +106,9 @@ public class Node implements Comparable<Node> {
 			return "\n" + opString((byte)-op) + "\n";
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Returns a string representing the path from the current node to
+	// the goal node
 	public String revPathToString()
 	{
 		if (back != null)
@@ -86,6 +117,9 @@ public class Node implements Comparable<Node> {
 			return s.toString();
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// This function is used by the heap to provide a natural ordering
+	// for the Node objects
 	public int compareTo(Node otherNode)
 	{
 		if (this.getF() < otherNode.getF())
@@ -96,17 +130,19 @@ public class Node implements Comparable<Node> {
 			return 1;
 	}
 	
+	///////////////////////////////////////////////////////////////////
+	// Returns a string representing the type of operator used
 	private String opString(byte op)
 	{
 		switch(op)
 		{
-			case -2:
+			case State.Left:
 				return "Left";
-			case 2:
+			case State.Right:
 				return "Right";
-			case -1:
+			case State.Down:
 				return "Down";
-			case 1:
+			case State.Up:
 				return "Up";
 			default:
 				return "";
