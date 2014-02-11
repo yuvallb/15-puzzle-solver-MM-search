@@ -14,6 +14,7 @@ public class Puzzle2 {
 		
 		//s = new State(new byte[][] {{2,10,3,0},{1,6,8,4},{5,9,7,12},{13,14,11,15}});
 		s = new State(new byte[][] {{2,11,3,10},{1,9,4,0},{6,13,7,8},{5,14,15,12}});
+		//s = new State(new byte[][] {{1,2,3,4},{8,7,6,5},{12,11,10,9},{0,14,15,13}});
 		//s = new State(new byte[][] {{4,3,2,1},{8,7,6,5},{12,11,10,9},{0,14,15,13}});
 		solution = solve(s, goal);
 		System.out.print(solution);
@@ -27,7 +28,7 @@ public class Puzzle2 {
 		HashMap<State, Node> openHash = new HashMap<State,Node>();
 		HashMap<State, Node> closedHash = new HashMap<State, Node>();
 	
-		Node n = new Node(initial, null, State.None, initial.h2());
+		Node n = new Node(initial, null, State.None, initial.h3());
 		nodesGenerated++;
 		if (initial.isSolved(goal))
 			return n;
@@ -38,6 +39,8 @@ public class Puzzle2 {
 		int maxDepth = 0;
 		while(!openHeap.isEmpty())
 		{
+			//if (nodesGenerated % 1000 == 0)
+			//	System.out.println("Nodes generated: " + nodesGenerated);
 			n = openHeap.poll();
 			//
 			if (n.getG() > maxDepth)
@@ -46,6 +49,8 @@ public class Puzzle2 {
 				System.out.println("Max Depth: " + maxDepth);
 			}
 			State s = n.getState();
+			//if (!openHash.containsKey(s))
+			//	continue;
 			openHash.remove(s);
 			closedHash.put(s, n);
 			for (byte op : ops)
@@ -55,7 +60,7 @@ public class Puzzle2 {
 					continue;
 				if (!openHash.containsKey(newState))
 				{
-					Node newNode = new Node(newState, n, op, newState.h2());
+					Node newNode = new Node(newState, n, op, newState.h3());
 					nodesGenerated++;
 					if (newState.isSolved(goal))
 					{
