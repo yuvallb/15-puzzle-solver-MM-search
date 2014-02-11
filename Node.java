@@ -54,17 +54,36 @@ public class Node implements Comparable<Node> {
 		return s;
 	}
 	
-	public String toString()
+	public int pathLength()
 	{
-		return toString(0);
+		if (back == null)
+			return 0;
+		else
+			return 1 + back.pathLength();
 	}
 	
-	public String toString(int pathLength)
+	public String pathToString()
 	{
 		if (back != null)
-			return back.toString(pathLength + 1) + "\n" + opString(op) + "\n" + s.toString();
+			return back.pathToString() + "\n" + opString(op) + "\n" + s;
 		else
-			return "Path Length: " + pathLength + "\n\nInitial State:\n" + s.toString();
+			return "\nInitial State:\n" + s;
+	}
+	
+	public String revPathToStringSkipFirst()
+	{
+		if (back != null)
+			return "\n" + opString((byte)-op) + "\n" + back.revPathToString();
+		else
+			return "\n" + opString((byte)-op) + "\n";
+	}
+	
+	public String revPathToString()
+	{
+		if (back != null)
+			return s + "\n" + opString((byte)-op) + "\n" + back.revPathToString();
+		else
+			return s.toString();
 	}
 	
 	public int compareTo(Node otherNode)

@@ -163,6 +163,42 @@ public class State {
 		return manhattan;
 	}
 	
+	public short h2(State goal)
+	{
+		short manhattan = 0;
+		
+		int correctRow[] = new int[16];
+		int correctCol[] = new int[16];
+		
+		for (int row = 0; row < 4; row++)
+		{
+			for (int col = 0; col < 4; col++)
+			{
+				if (goal.board[row][col] != 0)
+				{
+					correctRow[goal.board[row][col]] = row;
+					correctCol[goal.board[row][col]] = col;
+				}
+			}
+		}
+		
+		for (int row = 0; row < 4; row++)
+		{
+			for (int col = 0; col < 4; col++)
+			{
+				byte tile = board[row][col];
+				
+				if (tile != 0)
+				{
+					manhattan += Math.abs(correctRow[tile]-row);
+					manhattan += Math.abs(correctCol[tile]-col);
+				}
+			}
+		}
+		
+		return manhattan;	
+	}
+	
 	public short h3()
 	{
 		short v_invcount = 0;
@@ -202,5 +238,53 @@ public class State {
 		
 		short inv_dist = (short)(v_invcount/3+v_invcount%3+h_invcount/3+h_invcount%3);
 		return (short)Math.max(inv_dist, h2());
+	}
+	
+	public short h3(State goal)
+	{
+		byte[] hCurrent = new byte[16];
+		byte[] hGoal = new byte[16];
+		byte[] vCurrent = new byte[16];
+		byte[] vGoal = new byte[16];
+		
+		for (int i = 0, x = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++, x++)
+			{
+				hCurrent[x] = board[i][j];
+				hGoal[x] = goal.board[i][j];
+				vCurrent[x] = board[j][i];
+				vGoal[x] = goal.board[j][i];
+			}
+		}
+		
+		int hInversions = countInversions(hCurrent, hGoal);
+		int vInversions = countInversions(vCurrent, vGoal);
+		int invertDistance = hInversions/3 + hInversions%3 + vInversions/3 + vInversions%3;
+		return (short)Math.max(invertDistance, h2(goal));
+	}
+	
+	private int countInversions(byte[] array, byte[] target)
+	{
+		int inversions = 0;
+		
+		int[] correctPlace = new int[16];
+		for (int i = 0; i < 16; i++)
+		{
+			if (target[i] != 0)
+				correctPlace[target[i]] = i;
+		}
+		
+		for (int i = 0; i < 16; i++)
+		{
+			if (array[i] == 0)
+				continue;
+			for (int j = i+1; j < 16; j++)
+			{
+				if (array[j] != 0 && correctPlace[array[j]] < i)
+					inversions++;
+			}
+		}
+		return inversions;
 	}
 }
