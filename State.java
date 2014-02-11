@@ -209,7 +209,7 @@ public class State {
 		int hInversions = countInversions(hCurrent, hGoal);
 		int vInversions = countInversions(vCurrent, vGoal);
 		int invertDistance = hInversions/3 + hInversions%3 + vInversions/3 + vInversions%3;
-		
+
 		// Either the Inversion distance or the Manhattan distance can be larger,
 		// so we return the maximum of the two.
 		return (short)Math.max(invertDistance, h2(goal));
@@ -242,7 +242,7 @@ public class State {
 			{
 				// If that tile is supposed to come before i, we have
 				// an inversion, so we increment the counter
-				if (array[j] != 0 && correctPlace[array[j]] < i)
+				if (array[j] != 0 && correctPlace[array[j]] < correctPlace[array[i]])
 					inversions++;
 			}
 		}

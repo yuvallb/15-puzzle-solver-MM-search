@@ -25,7 +25,7 @@ public class Puzzle {
 		
 		// Goal state
 		State goal = new State(new byte[][] {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,0}});			
-		
+
 		// Run solver on each test case
 		for (State initial : initials)
 		{
@@ -33,7 +33,7 @@ public class Puzzle {
 			if (solution != null)
 			{
 				// Output path
-				System.out.println("Path Length: " + (solution[0].pathLength() + solution[1].pathLength()));
+				System.out.println("Path Length: " + (solution[0].getG() + solution[1].getG()));
 				System.out.print(solution[0].pathToString());
 				System.out.print(solution[1].revPathToStringSkipFirst() + "\n\n");
 			}

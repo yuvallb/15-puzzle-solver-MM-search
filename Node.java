@@ -74,16 +74,6 @@ public class Node implements Comparable<Node> {
 	}
 	
 	///////////////////////////////////////////////////////////////////
-	// Recursively traverses back pointers to get path length
-	public int pathLength()
-	{
-		if (back == null)
-			return 0;
-		else
-			return 1 + back.pathLength();
-	}
-	
-	///////////////////////////////////////////////////////////////////
 	// Returns a string representing the path from initial state to
 	// the state of this node
 	public String pathToString()
