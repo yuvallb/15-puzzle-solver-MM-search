@@ -12,8 +12,6 @@ public class Puzzle {
 	static class NodeHeap extends PriorityQueue<Node> {}
 	static class StateNodeHash extends HashMap<State, Node> {}
 	
-	public static final float EXTRANODES = 1.5f;
-	
 	///////////////////////////////////////////////////////////////////
 	// main - run solver on test cases and print the results
 	public static void main(String args[])
@@ -56,10 +54,6 @@ public class Puzzle {
 		final int FWD = 0;		// Forward direction
 		final int REV = 1;		// Backward direction
 		int nodesGenerated = 0;	// Count of total nodes generated
-		
-		Node bestFwdNode = null;
-		Node bestRevNode = null;
-		int baseNodesGenerated = 0;
 		
 		byte[] ops = {State.Left, State.Right, State.Up, State.Down};
 		int[] directions = {FWD, REV};
@@ -138,31 +132,15 @@ public class Puzzle {
 					// If there is a match, return the pair of nodes
 					if (matchedNode != null)
 					{
-						if (baseNodesGenerated == 0)
-							baseNodesGenerated = nodesGenerated;
-						if (bestFwdNode == null || newNode.getG() + matchedNode.getG() < bestFwdNode.getG() + bestRevNode.getG())
-						{
-							if (i == FWD)
-							{
-								bestFwdNode = newNode;
-								bestRevNode = matchedNode;
-							}
-							else
-							{
-								bestFwdNode = matchedNode;
-								bestRevNode = newNode;
-							}
-						}
-
+						System.out.println("Nodes Generated: " + nodesGenerated);
+						if (i == FWD)
+							return new Node[]{newNode, matchedNode};
+						else
+							return new Node[]{matchedNode, newNode};
 					// Otherwise, add the new node to the open set
 					} else {
 						openHash[i].put(newState, newNode);
 						openHeap[i].add(newNode);
-					}
-					if (baseNodesGenerated != 0 && nodesGenerated > baseNodesGenerated*EXTRANODES)
-					{
-						System.out.println("Nodes Generated: " + nodesGenerated);
-						return new Node[]{bestFwdNode, bestRevNode};
 					}
 				}
 				// If the new state is already in the open set
@@ -200,9 +178,6 @@ public class Puzzle {
 				j = REV;
 			}
 		}
-		if (bestFwdNode != null)
-			return new Node[] {bestFwdNode, bestRevNode};
-		else
-			return null;	// No solution found
+		return null;	// No solution found
 	}
 }
