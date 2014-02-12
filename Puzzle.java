@@ -53,7 +53,6 @@ public class Puzzle {
 	{
 		final int FWD = 0;		// Forward direction
 		final int REV = 1;		// Backward direction
-		int nodesGenerated = 0;	// Count of total nodes generated
 		
 		byte[] ops = {State.Left, State.Right, State.Up, State.Down};
 		int[] directions = {FWD, REV};
@@ -84,7 +83,6 @@ public class Puzzle {
 			
 			// Add initial node to the open set
 			Node n = new Node(initial[i], null, State.None, initial[i].h3(goal[i]));
-			nodesGenerated++;
 			openHash[i].put(initial[i], n);
 			openHeap[i].add(n);
 		}
@@ -120,7 +118,6 @@ public class Puzzle {
 				{
 					// Create a new Node for this state
 					Node newNode = new Node(newState, n, op, newState.h3(goal[i]));
-					nodesGenerated++;
 					
 					// Check for a match in the nodes of the opposite direction
 					Node matchedNode = null;
@@ -132,7 +129,13 @@ public class Puzzle {
 					// If there is a match, return the pair of nodes
 					if (matchedNode != null)
 					{
-						System.out.println("Nodes Generated: " + nodesGenerated);
+						int openNodeCount = openHash[i].size() + openHash[j].size() + 1;
+						int closedNodeCount = closedHash[i].size() + closedHash[i].size();
+						
+						System.out.print("Nodes Generated: " + (openNodeCount + closedNodeCount));
+						System.out.print(" (" + openNodeCount + " open/");
+						System.out.println(closedNodeCount + " closed)");
+						
 						if (i == FWD)
 							return new Node[]{newNode, matchedNode};
 						else
