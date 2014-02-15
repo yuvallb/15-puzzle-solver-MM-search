@@ -12,6 +12,8 @@ public class Puzzle {
 	static class NodeHeap extends PriorityQueue<Node> {}
 	static class StateNodeHash extends HashMap<State, Node> {}
 	
+	static final double HWEIGHT = 1.3;
+	
 	///////////////////////////////////////////////////////////////////
 	// main - run solver on test cases and print the results
 	public static void main(String args[])
@@ -24,7 +26,7 @@ public class Puzzle {
 		initials[2] = new State(new byte[][] {{4,3,2,1},{8,7,6,5},{12,11,10,9},{0,14,15,13}});
 		
 		// Goal state
-		State goal = new State(new byte[][] {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,0}});			
+		State goal = new State(new byte[][] {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,0}});
 
 		// Run solver on each test case
 		for (State initial : initials)
@@ -82,7 +84,7 @@ public class Puzzle {
 			closedHash[i] = new StateNodeHash();
 			
 			// Add initial node to the open set
-			Node n = new Node(initial[i], null, State.None, initial[i].h3(goal[i]));
+			Node n = new Node(initial[i], null, State.None, (short)(initial[i].h(goal[i]) * HWEIGHT));
 			openHash[i].put(initial[i], n);
 			openHeap[i].add(n);
 		}
@@ -97,7 +99,7 @@ public class Puzzle {
 			// Remove node with minimum f-score
 			Node n = openHeap[i].poll();
 			State s = n.getState();
-			
+				
 			// Move the node from the open to closed set
 			openHash[i].remove(s);
 			closedHash[i].put(s, n);
@@ -117,7 +119,7 @@ public class Puzzle {
 				if (!openHash[i].containsKey(newState))
 				{
 					// Create a new Node for this state
-					Node newNode = new Node(newState, n, op, newState.h3(goal[i]));
+					Node newNode = new Node(newState, n, op, (short)(newState.h(goal[i]) * HWEIGHT));
 					
 					// Check for a match in the nodes of the opposite direction
 					Node matchedNode = null;

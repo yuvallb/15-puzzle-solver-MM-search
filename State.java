@@ -140,7 +140,7 @@ public class State {
 	// "Manhattan distance" heuristic
 	// Returns sum of the Manhattan distances between pairs of tiles in
 	// this state and the goal state
-	public short h2(State goal)
+	public short manhattanDistance(State goal)
 	{
 		short manhattan = 0;
 		
@@ -177,76 +177,148 @@ public class State {
 			}
 		}
 		
-		return manhattan;	
+		return manhattan;
 	}
 	
 	///////////////////////////////////////////////////////////////////
-	// Inversion distance heuristic
-	// Calculates number of horizontal and vertical inversions and
-	// returns minimum number of steps to eliminate them
-	public short h3(State goal)
+	// Linear conflict heuristic
+	// Returns the sum of the Manhattan distance and the additional
+	// moves required to eliminate conflicts between tiles that are in
+	// their goal row or column but in the wrong order.
+	public short h(State goal)
 	{
-		// Current and goal states converted to 1D arrays in row-major order
-		byte[] hCurrent = new byte[16];
-		byte[] hGoal = new byte[16];
+		// Required number moves to remove all linear conflicts
+		int reqMoves = 0;
 		
-		// Current and goal states converted to 1D arrays in column-major order
-		byte[] vCurrent = new byte[16];
-		byte[] vGoal = new byte[16];
+		// Correct row/column of each tile
+		int correctRow[] = new int[16];
+		int correctCol[] = new int[16];
 		
-		// Convert 2D arrays to 1D arrays
-		for (int i = 0, x = 0; i < 4; i++)
+		// Number or horizontal and vertical conflicts a particular
+		// tile is involved in
+		int hConflicts[][] = new int[4][4];
+		int vConflicts[][] = new int[4][4];
+		
+		// conflictCount[i] is the number of tiles in a row or column
+		// that have i conflicts with other tiles in the same row/column
+		int conflictCount[];
+		
+		// Finds the correct row and column for each tile using the
+		// goal state
+		for (int row = 0; row < 4; row++)
 		{
-			for (int j = 0; j < 4; j++, x++)
+			for (int col = 0; col < 4; col++)
 			{
-				hCurrent[x] = board[i][j];
-				hGoal[x] = goal.board[i][j];
-				vCurrent[x] = board[j][i];
-				vGoal[x] = goal.board[j][i];
+				if (goal.board[row][col] != 0)
+				{
+					correctRow[goal.board[row][col]] = row;
+					correctCol[goal.board[row][col]] = col;
+				}
 			}
 		}
 		
-		int hInversions = countInversions(hCurrent, hGoal);
-		int vInversions = countInversions(vCurrent, vGoal);
-		int invertDistance = hInversions/3 + hInversions%3 + vInversions/3 + vInversions%3;
+		// For each non-blank tile on the board
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				if (board[i][j] != 0)
+				{
+					// If the tile is in its goal row
+					if (correctRow[board[i][j]] == i)
+					{
+						// For each of the following tiles in the row
+						for (int k = j + 1; k < 4; k++)
+						{
+							// If the second tile is also in its goal row
+							// and the two tiles are in the wrong relative order
+							// then increase the conflict count for both tiles
+							if (board[i][k] != 0 &&
+								correctRow[board[i][k]] == i &&
+								correctCol[board[i][k]] < correctCol[board[i][j]])
+							{
+								hConflicts[i][k]++;
+								hConflicts[i][j]++;
+							}
+						}
+					}
+					// If the tile is in its goal column
+					if (correctCol[board[i][j]] == j)
+					{
+						// For each of the following tiles in the column
+						for (int k = i + 1; k < 4; k++)
+						{
+							// If the second tile is also in its goal column
+							// and the two tiles are in the wrong relative order
+							// then increase the conflict count for both tiles
+							if (board[k][j] != 0 &&
+								correctCol[board[k][j]] == j &&
+								correctRow[board[k][j]] < correctRow[board[i][j]])
+							{
+								vConflicts[k][j]++;
+								vConflicts[i][j]++;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		// For each row, add number of moves to eliminate conflicts to required moves
+		for (int i = 0; i < 4; i++)
+		{
+			conflictCount = new int[4];
+			for (int j = 0; j < 4; j++)
+			{
+				conflictCount[hConflicts[i][j]]++;
+			}
+			reqMoves += movesForConflicts(conflictCount);
+		}
+		
+		// For each column, add number of moves to eliminate conflicts to required moves
+		for (int j = 0; j < 4; j++)
+		{
+			conflictCount = new int[4];
+			for (int i = 0; i < 4; i++)
+			{
+				conflictCount[vConflicts[i][j]]++;
+			}
+			reqMoves += movesForConflicts(conflictCount);
+		}
+		
+		// Return the sum of the Manhattan distance and the additional
+		// required moves to resolve conflicts
+		return (short) (reqMoves + manhattanDistance(goal));
+	}
+	
+	///////////////////////////////////////////////////////////////////
+	// Returns the number of moves required to resolve linear conflicts,
+	// where conflictCount[i] is the number of tiles with i conflicts.
+	// The number of moves required is twice the number of tiles that
+	// must be moved to an adjacent row or column in order to get tiles
+	// in the correct order.
+	private int movesForConflicts(int[] conflictCount)
+	{
+		// If every tile has 0 conflicts
+		// Matches 1234
+		if (conflictCount[0] == 4)
+			return 0; // No additional moves required
 
-		// Either the Inversion distance or the Manhattan distance can be larger,
-		// so we return the maximum of the two.
-		return (short)Math.max(invertDistance, h2(goal));
-	}
-	
-	///////////////////////////////////////////////////////////////////
-	// Counts the number of inversions in an array relative to the
-	// goal ordering in the target array
-	private int countInversions(byte[] array, byte[] target)
-	{
-		int inversions = 0;
-		
-		// Set correctPlace[i] to the correct index of tile i
-		int[] correctPlace = new int[16];
-		for (int i = 0; i < 16; i++)
-		{
-			if (target[i] != 0)
-				correctPlace[target[i]] = i;
-		}
-		
-		// For each tile in the array
-		for (int i = 0; i < 16; i++)
-		{
-			// Skip blank tile
-			if (array[i] == 0)
-				continue;
-				
-			// Check every tile that comes after tile i
-			for (int j = i+1; j < 16; j++)
-			{
-				// If that tile is supposed to come before i, we have
-				// an inversion, so we increment the counter
-				if (array[j] != 0 && correctPlace[array[j]] < correctPlace[array[i]])
-					inversions++;
-			}
-		}
-		// Return total number of inversions
-		return inversions;
+		// If every tile has 3 conflicts
+		// Matches 4321
+		else if (conflictCount[3] == 4)
+			return 6; // 6 additional moves required
+			
+		// If 2 tiles have 1 conflict each
+		// or 2 tiles have 1 conflict each and 1 tile has 2 conflicts
+		// or 3 tiles have 1 conflict each and 1 tiles has 3 conflicts
+		// Matches 1243,1324,1342,1423,2134,2314,2341,3124,4123
+		else if (conflictCount[1] == 2 && conflictCount[2] != 2 || conflictCount[1] == 3)
+			return 2; // 2 additional moves required
+			
+		// Otherwise
+		// Matches 1432,2143,2413,2431,3142,3214,3241,3412,3421,4132,4213,4231,4312
+		else
+			return 4; // 4 additional moves required
 	}
 }
