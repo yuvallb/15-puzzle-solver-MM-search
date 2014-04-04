@@ -8,7 +8,6 @@ import java.lang.reflect.Array;
 
 public class Puzzle {
 	
-	// These are required as a workaround for Java's lack of arrays of generics
 	static class NodeHeap extends PriorityQueue<Node> {}
 	static class StateNodeHash extends HashMap<State, Node> {}
 	
