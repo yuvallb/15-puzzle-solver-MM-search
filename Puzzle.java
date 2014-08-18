@@ -23,6 +23,11 @@ public class Puzzle {
         // Initial states of puzzles to solve
         List<State> initials = new ArrayList<>();
         
+        if (args.length < 1) {
+        	System.out.println("Error: no input file given");
+        	System.exit(1);
+        }
+        
         // Read input from file given on command line
         Scanner s = null;
         try {
