@@ -1,10 +1,10 @@
 public class Node implements Comparable<Node> {
     
-    private State state;            // The state for this node
-    private Node backPtr;            // Back pointer
-    private State.Operator op;        // Operator used to get to this node
-    private short g;                // Depth of node in search tree
-    private short h;                // Computed heuristic for node state
+    private State state;        // The state for this node
+    private Node backPtr;       // Back pointer
+    private State.Operator op;  // Operator used to get to this node
+    private short depth;        // Depth of node in search tree
+    private short heuristic;    // Computed heuristic for node state
     
     /**
      * @param state    Puzzle state associated with this node
@@ -16,14 +16,14 @@ public class Node implements Comparable<Node> {
         this.state = state;
         this.backPtr = backPtr;
         this.op = op;
-        this.h = h;
+        this.heuristic = h;
         
         // Set root node depth to 0, and child node depth to
         // parent depth + 1
         if (backPtr == null)
-            this.g = 0;
+            this.depth = 0;
         else
-            this.g = (short)(backPtr.g + 1);
+            this.depth = (short)(backPtr.depth + 1);
     }
     
     /**
@@ -43,22 +43,22 @@ public class Node implements Comparable<Node> {
     /**
      * @return  Tree depth plus heuristic
      */
-    public short getF() {
-        return (short)(g+h);
+    public short getFScore() {
+        return (short)(depth+heuristic);
     }
     
     /**
-     * @param g  Tree depth
+     * @param depth  Tree depth
      */
-    public void setG(short g) {
-        this.g = g;
+    public void setDepth(short depth) {
+        this.depth = depth;
     }
     
     /**
      * @return  Tree depth
      */
-    public short getG() {
-        return g;
+    public short getDepth() {
+        return depth;
     }
     
     /**
@@ -106,9 +106,9 @@ public class Node implements Comparable<Node> {
      */
     @Override
     public int compareTo(Node otherNode) {
-        if (this.getF() < otherNode.getF())
+        if (this.getFScore() < otherNode.getFScore())
             return -1;
-        else if (this.getF() == otherNode.getF())
+        else if (this.getFScore() == otherNode.getFScore())
             return 0;
         else
             return 1;

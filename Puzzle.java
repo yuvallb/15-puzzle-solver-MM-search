@@ -24,8 +24,8 @@ public class Puzzle {
         List<State> initials = new ArrayList<>();
         
         if (args.length < 1) {
-        	System.out.println("Error: no input file given");
-        	System.exit(1);
+            System.out.println("Error: no input file given");
+            System.exit(1);
         }
         
         // Read input from file given on command line
@@ -70,7 +70,7 @@ public class Puzzle {
             Node[] solution = biDirectionalSolve(initial, goal);
             if (solution != null) {
                 // Output path
-                System.out.println("Path Length: " + (solution[0].getG() + solution[1].getG()));
+                System.out.println("Path Length: " + (solution[0].getDepth() + solution[1].getDepth()));
                 System.out.print(solution[0].pathToString());
                 System.out.print(solution[1].revPathToStringSkipFirst() + "\n\n");
             }
@@ -118,7 +118,7 @@ public class Puzzle {
             closedHash.add(new HashMap<State, Node>());
             
             // Add initial node to the open set
-            Node n = new Node(initial[i], null, State.Operator.None, (short)(initial[i].h(goal[i]) * HWEIGHT));
+            Node n = new Node(initial[i], null, null, (short)(initial[i].h(goal[i]) * HWEIGHT));
             openHash.get(i).put(initial[i], n);
             openHeap.get(i).add(n);
         }
@@ -138,7 +138,7 @@ public class Puzzle {
             closedHash.get(i).put(s, n);
             
             // For each of the four possible operators
-            for (State.Operator op : State.Operator.mutatorValues()) {
+            for (State.Operator op : State.Operator.values()) {
                 // Create a new state that is the result of the move
                 State newState = s.move(op);
                 
@@ -182,10 +182,10 @@ public class Puzzle {
                     Node existingNode = openHash.get(i).get(newState);
                     
                     // If we have found a shorter path to this node
-                    if (n.getG() + 1 < existingNode.getG()) {
+                    if (n.getDepth() + 1 < existingNode.getDepth()) {
                         
                         // Update node depth, back pointer, and operator
-                        existingNode.setG((short)(n.getG() + 1));
+                        existingNode.setDepth((short)(n.getDepth() + 1));
                         existingNode.setBackPtr(n);
                         existingNode.setOp(op);
                         

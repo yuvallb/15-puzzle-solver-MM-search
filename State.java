@@ -2,10 +2,13 @@ public class State {
     
     // 2D array representing game board where each element is a number
     // between 0 and 15 (0 is used for the blank tile)
-    private byte[][] board = new byte[4][4];
+    private final byte[][] board;
+    
+    // Correct position of each tile to achieve this state
+    private Position[] correctPos;
         
     enum Operator {
-        Up, Down, Left, Right, None;
+        Up, Down, Left, Right;
         
         public Operator reverse() {
             if (this == Up)
@@ -14,14 +17,8 @@ public class State {
                 return Up;
             else if (this == Left)
                 return Right;
-            else if (this == Right)
-                return Left;
             else
-                return None;
-        }
-        
-        public static Operator[] mutatorValues() {
-            return new Operator[] {Up, Down, Left, Right};
+                return Left;
         }
     }
     
@@ -37,7 +34,7 @@ public class State {
      */
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         
         for (byte[] row : board) {
             for (byte tile : row) {
@@ -104,8 +101,6 @@ public class State {
                                 return null;
                             }
                             break;
-                        case None:
-                            break;
                     }
                 }
             }
@@ -148,6 +143,26 @@ public class State {
     }
     
     /**
+     * @param goal  Goal state
+     * @return Array of positions for each of the 15 tiles
+     */
+    public Position[] getCorrectPositions(State goal) {
+        if (goal.correctPos == null) {
+            goal.correctPos = new Position[16];
+            
+            // Finds the correct position of each tile using the goal state
+            for (int row = 0; row < 4; row++) {
+                for (int col = 0; col < 4; col++) {
+                    if (goal.board[row][col] != 0) {
+                        goal.correctPos[goal.board[row][col]] = new Position(row, col);
+                    }
+                }
+            }
+        }
+        return goal.correctPos;
+    }
+    
+    /**
      * @param goal  Goal state to calculate manhattan distance from
      * @return  Manhattan distance from goal state
      */
@@ -155,19 +170,7 @@ public class State {
     {
         short manhattan = 0;
         
-        int correctRow[] = new int[16];
-        int correctCol[] = new int[16];
-        
-        // Finds the correct row and column for each tile using the
-        // goal state
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                if (goal.board[row][col] != 0) {
-                    correctRow[goal.board[row][col]] = row;
-                    correctCol[goal.board[row][col]] = col;
-                }
-            }
-        }
+        Position[] correctPos = getCorrectPositions(goal);
         
         // Compare each tile's actual row and column to the correct row
         // and column, compute Manhattan distance, and add to sum.
@@ -176,8 +179,8 @@ public class State {
                 byte tile = board[row][col];
                 
                 if (tile != 0) {
-                    manhattan += Math.abs(correctRow[tile]-row);
-                    manhattan += Math.abs(correctCol[tile]-col);
+                    manhattan += Math.abs(correctPos[tile].row-row);
+                    manhattan += Math.abs(correctPos[tile].col-col);
                 }
             }
         }
@@ -199,9 +202,7 @@ public class State {
         // Required number moves to remove all linear conflicts
         int reqMoves = 0;
         
-        // Correct row/column of each tile
-        int correctRow[] = new int[16];
-        int correctCol[] = new int[16];
+        Position[] correctPos = getCorrectPositions(goal);
         
         // Number or horizontal and vertical conflicts a particular
         // tile is involved in
@@ -212,46 +213,35 @@ public class State {
         // that have i conflicts with other tiles in the same row/column
         int conflictCount[];
         
-        // Finds the correct row and column for each tile using the
-        // goal state
-        for (int row = 0; row < 4; row++) {
-            for (int col = 0; col < 4; col++) {
-                if (goal.board[row][col] != 0) {
-                    correctRow[goal.board[row][col]] = row;
-                    correctCol[goal.board[row][col]] = col;
-                }
-            }
-        }
-        
         // For each non-blank tile on the board
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (board[i][j] != 0) {
                     // If the tile is in its goal row
-                    if (correctRow[board[i][j]] == i) {
+                    if (correctPos[board[i][j]].row == i) {
                         // For each of the following tiles in the row
                         for (int k = j + 1; k < 4; k++) {
                             // If the second tile is also in its goal row
                             // and the two tiles are in the wrong relative order
                             // then increase the conflict count for both tiles
                             if (board[i][k] != 0 &&
-                                correctRow[board[i][k]] == i &&
-                                correctCol[board[i][k]] < correctCol[board[i][j]]) {
+                                correctPos[board[i][k]].row == i &&
+                                correctPos[board[i][k]].col < correctPos[board[i][j]].col) {
                                 hConflicts[i][k]++;
                                 hConflicts[i][j]++;
                             }
                         }
                     }
                     // If the tile is in its goal column
-                    if (correctCol[board[i][j]] == j) {
+                    if (correctPos[board[i][j]].col == j) {
                         // For each of the following tiles in the column
                         for (int k = i + 1; k < 4; k++) {
                             // If the second tile is also in its goal column
                             // and the two tiles are in the wrong relative order
                             // then increase the conflict count for both tiles
                             if (board[k][j] != 0 &&
-                                correctCol[board[k][j]] == j &&
-                                correctRow[board[k][j]] < correctRow[board[i][j]]) {
+                                correctPos[board[k][j]].col == j &&
+                                correctPos[board[k][j]].row < correctPos[board[i][j]].row) {
                                 vConflicts[k][j]++;
                                 vConflicts[i][j]++;
                             }
