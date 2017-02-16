@@ -8,7 +8,7 @@ import java.util.Queue;
 
 public class MMsearch {
 
-    /**
+	/**
      * Solve 15-puzzle using bidirectional A* search
      * 
      * @param fwdInitial initial state
@@ -65,86 +65,109 @@ public class MMsearch {
             prOpenHeap.get(i).add(n);
         }
         
-        // For first iteration we start from the forward direction
-        int i = FWD; // Index into our lists for the current direction
-        int j = REV; // Index into our lists for the opposite direction
         
         // While there are still elements in the open set
         while(!fOpenHeap.get(FWD).isEmpty() && !fOpenHeap.get(REV).isEmpty()) {
-        	//
+        	// get minimum priority
+        	int fwdPriority = prOpenHeap.get(FWD).peek().getPriority();
+        	int C = Math.min(fwdPriority, prOpenHeap.get(REV).peek().getPriority());
         	
-            // Remove node with minimum f-score
-            Node n = fOpenHeap.get(i).poll();
-            State s = n.getState();
+        	// stop condition: test U
+        	if (U<=Math.max(Math.max(
+        			C, 
+        			fOpenHeap.get(FWD).peek().getFScore()
+        			),Math.max(
+                	fOpenHeap.get(REV).peek().getFScore(),
+                	gOpenHeap.get(FWD).peek().getDepth()+
+                	gOpenHeap.get(REV).peek().getDepth()+1
+        					))) {
+        		
+                int openNodeCount = openHash.get(FWD).size() + openHash.get(REV).size() + 1;
+                int closedNodeCount = closedHash.get(FWD).size() + closedHash.get(REV).size();
                 
-            // Move the node from the open to closed set
-            openHash.get(i).remove(s);
-            closedHash.get(i).put(s, n);
+                System.out.print("Nodes Generated: " + (openNodeCount + closedNodeCount));
+                System.out.print(" (" + openNodeCount + " open/");
+                System.out.println(closedNodeCount + " closed)");
+                System.out.println("Path length: " + U);
+
+        		return new Node[]{}; // TODO -  retrace the path
+        	}
+        	
+        	// decide direction to expand 
+        	int dir = (C==fwdPriority) ? FWD : REV;
+
+			Node n = null;
+			{
+				// choose n ∈ OpenF for which prF (n) = prminF and gF (n) is
+				// minimum
+				PriorityQueue<Node> gMinTemp = new PriorityQueue<Node>(byG);
+				while (prOpenHeap.get(dir).peek()!=null && C == prOpenHeap.get(dir).peek().getPriority()) {
+					gMinTemp.add(prOpenHeap.get(dir).poll());
+				}
+				n = gMinTemp.poll();
+				while (!gMinTemp.isEmpty()) {
+					prOpenHeap.get(dir).add(gMinTemp.poll());
+				}
+			}
+
+        	
+        	// get the state for the selected node
+            State s = n.getState();
+
+            // Move the node from the open to closed set, remove from heaps
+            openHash.get(dir).remove(s);
+            closedHash.get(dir).put(s, n);
+            fOpenHeap.get(dir).remove(n);
+            gOpenHeap.get(dir).remove(n);
             
             // For each of the four possible operators
             for (State.Operator op : State.Operator.values()) {
                 // Create a new state that is the result of the move
                 State newState = s.move(op);
                 
-                // If the move is invalid or has already been tried,
-                // go on to next move
-                if (newState == null || closedHash.get(i).containsKey(newState))
+                // If the move is invalid 
+                if (newState == null) {
                     continue;
-                    
-                // If the new state is not already in the open set
-                if (!openHash.get(i).containsKey(newState)) {
-                    // Create a new Node for this state
-                    Node newNode = new Node(newState, n, op, (short)(newState.h(goal[i]) ));
-                    
-                    // Check for a match in the nodes of the opposite direction
-                    Node matchedNode = null;
-                    if (openHash.get(j).containsKey(newState))
-                        matchedNode = openHash.get(j).get(newState);
-                    if (closedHash.get(j).containsKey(newState))
-                        matchedNode = closedHash.get(j).get(newState);
-                    
-                    // If there is a match, return the pair of nodes
-                    if (matchedNode != null) {
-                        int openNodeCount = openHash.get(i).size() + openHash.get(j).size() + 1;
-                        int closedNodeCount = closedHash.get(i).size() + closedHash.get(j).size();
-                        
-                        System.out.print("Nodes Generated: " + (openNodeCount + closedNodeCount));
-                        System.out.print(" (" + openNodeCount + " open/");
-                        System.out.println(closedNodeCount + " closed)");
-                        
-                        if (i == FWD)
-                            return new Node[]{newNode, matchedNode};
-                        else
-                            return new Node[]{matchedNode, newNode};
-                    // Otherwise, add the new node to the open set
-                    } else {
-                        openHash.get(i).put(newState, newNode);
-                        fOpenHeap.get(i).add(newNode);
-                    }
-                } else { // If the new state is already in the open set
-                    // Retrieve the existing node
-                    Node existingNode = openHash.get(i).get(newState);
-                    
-                    // If we have found a shorter path to this node
-                    if (n.getDepth() + 1 < existingNode.getDepth()) {
-                        
-                        // Update node depth, back pointer, and operator
-                        existingNode.setDepth((short)(n.getDepth() + 1));
-                        existingNode.setBackPtr(n);
-                        existingNode.setOp(op);
-                        
-                        // Remove and re-add node from heap.  This will
-                        // cause the node to be placed in the proper
-                        // minheap order.
-                        fOpenHeap.get(i).remove(existingNode);
-                        fOpenHeap.get(i).add(existingNode);
-                    }
+                }
+                
+                Node newNode = null;
+                // if c ∈ OpenF ∪ ClosedF and  gF (c) ≤ gF (n) + cost(n, c) then continue
+                {
+                	newNode = openHash.get(dir).get(newState);
+                	if (newNode == null) {
+                		newNode = closedHash.get(dir).get(newState);
+                	}
+                	// the child is in the open or closed list 
+                	if (newNode != null) { 
+                		// test if cost is lower now
+                		if (newNode.getFScore() <= n.getFScore() + 1) {
+                			continue;
+                		}
+                		openHash.get(dir).remove(newState); // should we remove from heaps???
+                		closedHash.get(dir).remove(newState);
+                	}
+                }
+                
+                // create new node for this state, if not already found in open/closed lists
+                if (newNode == null) {
+                	newNode = new Node(newState, n, op, (short)(newState.h(goal[dir]) ));
+                }
+                
+                // add c to OpenF
+                openHash.get(dir).put(newState, newNode);
+                fOpenHeap.get(dir).add(newNode);
+                gOpenHeap.get(dir).add(newNode);
+                prOpenHeap.get(dir).add(newNode);
+                
+                // if c ∈ OpenB then U :=min(U,gF(c)+gB(c))
+                if (openHash.get(1-dir).containsKey(newState)) {
+                	U = Math.min(U, 
+                			openHash.get(1-dir).get(newState).getDepth() +
+                			newNode.getDepth()
+                			);
                 }
             }
-            
-            // Swap directions
-            i = 1-i;
-            j = 1-j;
+                
         }
         return null;    // No solution found
     }

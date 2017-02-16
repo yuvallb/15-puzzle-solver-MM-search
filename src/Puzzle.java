@@ -60,27 +60,27 @@ public class Puzzle {
 
         // Run solver on each test case
         for (State initial : initials) {
-            System.out.print("Running bidirectional weighted A*\n--------------------------\n\n");
+            System.out.println("Running bidirectional weighted A*\n--------------------------");
             Node[] solution1 = BidiAStarSearch.biDirectionalSolve(initial, goal);
             if (solution1 == null) {
-                System.out.print("No solution Found!\n\n");
+                System.out.println("No solution Found!");
             } else {
                 // Output path
                 System.out.println("Path Length: " + (solution1[0].getDepth() + solution1[1].getDepth()));
-                System.out.print(solution1[0].pathToString());
-                System.out.print(solution1[1].revPathToStringSkipFirst() + "\n\n");
+              //  System.out.print(solution1[0].pathToString());
+              //  System.out.print(solution1[1].revPathToStringSkipFirst() + "\n\n");
             }
 
-            System.out.print("Running MM\n----------\n\n");
+            System.out.print("\n");
+            
+            System.out.println("Running MM\n----------");
             Node[] solution2 = MMsearch.MMSolve(initial, goal);
             if (solution2 == null) {
-                System.out.print("No solution Found!\n\n");
-            } else {
-                // Output path
-                System.out.println("Path Length: " + (solution2[0].getDepth() + solution2[1].getDepth()));
-                System.out.print(solution2[0].pathToString());
-                System.out.print(solution2[1].revPathToStringSkipFirst() + "\n\n");
+                System.out.println("No solution Found!");
             }
+
+            System.out.println("\n==========================");
+
         }
     }
     
