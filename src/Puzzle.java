@@ -1,5 +1,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -57,16 +59,20 @@ public class Puzzle {
         
         // Goal state
         State goal = new State(new byte[][] {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,0}});
-
+        Instant start,end;
+        
         // Run solver on each test case
         for (State initial : initials) {
             System.out.println("Running bidirectional weighted A*\n--------------------------");
+            start = Instant.now();
             Node[] solution1 = BidiAStarSearch.biDirectionalSolve(initial, goal);
+            end = Instant.now();
             if (solution1 == null) {
                 System.out.println("No solution Found!");
             } else {
                 // Output path
                 System.out.println("Path Length: " + (solution1[0].getDepth() + solution1[1].getDepth()));
+                System.out.println("Run time: " + Duration.between(start, end));
               //  System.out.print(solution1[0].pathToString());
               //  System.out.print(solution1[1].revPathToStringSkipFirst() + "\n\n");
             }
@@ -74,11 +80,15 @@ public class Puzzle {
             System.out.print("\n");
             
             System.out.println("Running MM\n----------");
+            start = Instant.now();
             Node[] solution2 = MMsearch.MMSolve(initial, goal);
+            end = Instant.now();
             if (solution2 == null) {
                 System.out.println("No solution Found!");
+            } else {
+            	System.out.println("Run time: " + Duration.between(start, end));
             }
-
+            
             System.out.println("\n==========================");
 
         }
