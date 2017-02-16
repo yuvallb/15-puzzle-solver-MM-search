@@ -60,13 +60,20 @@ public class Node implements Comparable<Node> {
     public short getDepth() {
         return depth;
     }
-    
+
+    /**
+     * @return  priority of the node
+     */
+    public short getPriority() {
+        return (short) Math.min(2*depth, depth+heuristic);
+    }
     /**
      * @return  Game state of the node
      */
     public State getState() {
         return state;
     }
+
     
     /**
      * @return  String representing the path from initial state to

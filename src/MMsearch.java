@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class MMsearch {
         
         final int FWD = 0;        // Forward direction
         final int REV = 1;        // Backward direction
+        int U = Integer.MAX_VALUE;
         
         int[] directions = {FWD, REV};
         
@@ -29,8 +31,14 @@ public class MMsearch {
         
         // Min-heap for removing the node from the open set with the
         // smallest f-score.
-        List<Queue<Node>> openHeap = new ArrayList<>(2);
+        List<Queue<Node>> fOpenHeap = new ArrayList<>(2);
+        List<Queue<Node>> gOpenHeap = new ArrayList<>(2);
+        List<Queue<Node>> prOpenHeap = new ArrayList<>(2);
         
+        // set comparators. by f is built in the Node object
+		Comparator<Node> byG = (Node a, Node b) -> a.getDepth() - b.getDepth();
+		Comparator<Node> byPriority = (Node a, Node b) -> a.getPriority() - b.getPriority();
+
         // Hash tables with States as keys and Nodes as data for
         // checking if a state is in the open or closed set.
         List<Map<State, Node>> openHash = new ArrayList<>(2);
@@ -43,14 +51,18 @@ public class MMsearch {
         // For both forward and backward directions
         for (int i : directions) {
             // Create empty heap and hash maps
-            openHeap.add(new PriorityQueue<Node>());
+        	fOpenHeap.add(new PriorityQueue<Node>());
+        	gOpenHeap.add(new PriorityQueue<Node>(byG));
+        	prOpenHeap.add(new PriorityQueue<Node>(byPriority));
             openHash.add(new HashMap<State, Node>());
             closedHash.add(new HashMap<State, Node>());
             
             // Add initial node to the open set
             Node n = new Node(initial[i], null, null, (short)(initial[i].h(goal[i])));
             openHash.get(i).put(initial[i], n);
-            openHeap.get(i).add(n);
+            fOpenHeap.get(i).add(n);
+            gOpenHeap.get(i).add(n);
+            prOpenHeap.get(i).add(n);
         }
         
         // For first iteration we start from the forward direction
@@ -58,9 +70,11 @@ public class MMsearch {
         int j = REV; // Index into our lists for the opposite direction
         
         // While there are still elements in the open set
-        while(!openHeap.get(i).isEmpty()) {
+        while(!fOpenHeap.get(FWD).isEmpty() && !fOpenHeap.get(REV).isEmpty()) {
+        	//
+        	
             // Remove node with minimum f-score
-            Node n = openHeap.get(i).poll();
+            Node n = fOpenHeap.get(i).poll();
             State s = n.getState();
                 
             // Move the node from the open to closed set
@@ -105,7 +119,7 @@ public class MMsearch {
                     // Otherwise, add the new node to the open set
                     } else {
                         openHash.get(i).put(newState, newNode);
-                        openHeap.get(i).add(newNode);
+                        fOpenHeap.get(i).add(newNode);
                     }
                 } else { // If the new state is already in the open set
                     // Retrieve the existing node
@@ -122,8 +136,8 @@ public class MMsearch {
                         // Remove and re-add node from heap.  This will
                         // cause the node to be placed in the proper
                         // minheap order.
-                        openHeap.get(i).remove(existingNode);
-                        openHeap.get(i).add(existingNode);
+                        fOpenHeap.get(i).remove(existingNode);
+                        fOpenHeap.get(i).add(existingNode);
                     }
                 }
             }
