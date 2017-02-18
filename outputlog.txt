@@ -3,12 +3,14 @@
 Running bidirectional weighted A*
 --------------------------
 Nodes Generated: 48 (27 open/21 closed)
+Found path: Forward depth:8 backward depth: 5
 Path Length: 13
 Run time: PT0.003S
 
 Running MM
 ----------
 Nodes Generated: 506 (265 open/241 closed)
+Found path: Forward depth:7 backward depth: 6
 Path length: 13
 Run time: PT0.056S
 
@@ -81,11 +83,6 @@ Path length: 65
 Run time: PT56.592S
 
 IDA* Manhattan+LinearConflict
-Nodes Generated: 6489
-Path length: 30
-Run time: PT0.009S
-
-IDA* Manhattan
-Nodes Generated: 15049
-Path length: 30
-Run time: PT0.003S
+Nodes Generated: 5,574,256,994
+Path length: 65
+Run time: PT672.189S

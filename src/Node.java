@@ -5,6 +5,7 @@ public class Node implements Comparable<Node> {
     private State.Operator op;  // Operator used to get to this node
     private short depth;        // Depth of node in search tree
     private short heuristic;    // Computed heuristic for node state
+    private int priority;
     
     /**
      * @param state    Puzzle state associated with this node
@@ -20,10 +21,13 @@ public class Node implements Comparable<Node> {
         
         // Set root node depth to 0, and child node depth to
         // parent depth + 1
-        if (backPtr == null)
+        if (backPtr == null) {
             this.depth = 0;
-        else
+        } else {
             this.depth = (short)(backPtr.depth + 1);
+        }
+        // MM / MMε
+        priority = Math.min(2*depth+Config.MMε, depth+heuristic);
     }
     
     /**
@@ -43,8 +47,8 @@ public class Node implements Comparable<Node> {
     /**
      * @return  Tree depth plus heuristic
      */
-    public short getFScore() {
-        return (short)(depth+heuristic);
+    public int getFScore() {
+        return depth+heuristic;
     }
     
     /**
@@ -64,8 +68,8 @@ public class Node implements Comparable<Node> {
     /**
      * @return  priority of the node
      */
-    public short getPriority() {
-        return (short) Math.min(2*depth, depth+heuristic);
+    public int getPriority() {
+        return priority;
     }
     /**
      * @return  Game state of the node

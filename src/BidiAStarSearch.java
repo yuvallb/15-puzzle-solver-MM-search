@@ -97,11 +97,15 @@ public class BidiAStarSearch {
                     if (matchedNode != null) {
                         int openNodeCount = openHash.get(i).size() + openHash.get(j).size() + 1;
                         int closedNodeCount = closedHash.get(i).size() + closedHash.get(j).size();
-                        
+                                                
+                    	if (i==FWD) {
+                    		System.out.println("Found path: Forward depth:" + newNode.getDepth() + " backward depth: " + matchedNode.getDepth());
+                    	} else {
+                    		System.out.println("Found path: Forward depth:" + matchedNode.getDepth() + " backward depth: " + newNode.getDepth());
+                    	}
                         System.out.print("Nodes Generated: " + (openNodeCount + closedNodeCount));
                         System.out.print(" (" + openNodeCount + " open/");
                         System.out.println(closedNodeCount + " closed)");
-                        
                         if (i == FWD)
                             return new Node[]{newNode, matchedNode};
                         else

@@ -36,9 +36,29 @@ public class MMsearch {
         List<Queue<Node>> prOpenHeap = new ArrayList<>(2);
         
         // set comparators. by f is built in the Node object
-		Comparator<Node> byG = (Node a, Node b) -> a.getDepth() - b.getDepth();
-		Comparator<Node> byPriority = (Node a, Node b) -> a.getPriority() - b.getPriority();
-
+		Comparator<Node> byG = (Node a, Node b) -> {
+	        if (a.getDepth() < b.getDepth()) {
+	            return -1;
+	        } else if (a.getDepth() == b.getDepth()) {
+	            return 0;
+	        } else {
+	            return 1;
+	        }	    };
+		Comparator<Node> byPriorityAndG = (Node a, Node b) -> {
+	        if (a.getPriority() < b.getPriority())
+	            return -1;
+	        else if (a.getPriority() == b.getPriority()){
+		        if (a.getDepth() < b.getDepth()) {
+		            return -1;
+		        } else if (a.getDepth() == b.getDepth()) {
+		            return 0;
+		        } else {
+		            return 1;
+		        }
+		    } else
+	            return 1;
+	    };
+	    
         // Hash tables with States as keys and Nodes as data for
         // checking if a state is in the open or closed set.
         List<Map<State, Node>> openHash = new ArrayList<>(2);
@@ -53,7 +73,7 @@ public class MMsearch {
             // Create empty heap and hash maps
         	fOpenHeap.add(new PriorityQueue<Node>());
         	gOpenHeap.add(new PriorityQueue<Node>(byG));
-        	prOpenHeap.add(new PriorityQueue<Node>(byPriority));
+        	prOpenHeap.add(new PriorityQueue<Node>(byPriorityAndG));
             openHash.add(new HashMap<State, Node>());
             closedHash.add(new HashMap<State, Node>());
             
@@ -91,24 +111,17 @@ public class MMsearch {
                 System.out.println("Path length: " + U);
 
         		return new Node[]{}; // TODO -  retrace the path
+        	} else if (U <= C) {
+                System.out.println("U >= C, but not meeting stop condition!!");
+                return null;
         	}
         	
         	// decide direction to expand 
         	int dir = (C==fwdPriority) ? FWD : REV;
 
-			Node n = null;
-			{
-				// choose n ∈ OpenF for which prF (n) = prminF and gF (n) is
-				// minimum
-				PriorityQueue<Node> gMinTemp = new PriorityQueue<Node>(byG);
-				while (prOpenHeap.get(dir).peek()!=null && C == prOpenHeap.get(dir).peek().getPriority()) {
-					gMinTemp.add(prOpenHeap.get(dir).poll());
-				}
-				n = gMinTemp.poll();
-				while (!gMinTemp.isEmpty()) {
-					prOpenHeap.get(dir).add(gMinTemp.poll());
-				}
-			}
+        	// choose n ∈ OpenF for which prF (n) = prminF and gF (n) is
+			// minimum
+			Node n = prOpenHeap.get(dir).poll();
 
         	
         	// get the state for the selected node
@@ -119,6 +132,7 @@ public class MMsearch {
             closedHash.get(dir).put(s, n);
             fOpenHeap.get(dir).remove(n);
             gOpenHeap.get(dir).remove(n);
+            prOpenHeap.get(dir).remove(n);
             
             // For each of the four possible operators
             for (State.Operator op : State.Operator.values()) {
@@ -143,7 +157,10 @@ public class MMsearch {
                 		if (newNode.getFScore() <= n.getFScore() + 1) {
                 			continue;
                 		}
-                		openHash.get(dir).remove(newState); // should we remove from heaps???
+                		openHash.get(dir).remove(newState); 
+                		fOpenHeap.get(dir).remove(newNode);
+                		gOpenHeap.get(dir).remove(newNode);
+                		prOpenHeap.get(dir).remove(newNode);
                 		closedHash.get(dir).remove(newState);
                 	}
                 }
@@ -160,11 +177,17 @@ public class MMsearch {
                 prOpenHeap.get(dir).add(newNode);
                 
                 // if c ∈ OpenB then U :=min(U,gF(c)+gB(c))
-                if (openHash.get(1-dir).containsKey(newState)) {
+                Node matchedNode = openHash.get(1-dir).get(newState);
+                if (matchedNode != null) {
                 	U = Math.min(U, 
-                			openHash.get(1-dir).get(newState).getDepth() +
+                			matchedNode.getDepth() +
                 			newNode.getDepth()
                 			);
+                	if (dir==FWD) {
+                		System.out.println("Found path: Forward depth:" + newNode.getDepth() + " backward depth: " + matchedNode.getDepth());
+                	} else {
+                		System.out.println("Found path: Forward depth:" + matchedNode.getDepth() + " backward depth: " + newNode.getDepth());
+                	}
                 }
             }
                 

@@ -63,7 +63,10 @@ public class Puzzle {
         
         // Run solver on each test case
         for (State initial : initials) {
-            System.out.println("Running bidirectional weighted A*\n--------------------------");
+            System.out.println("Initial state: \n" + initial + "\n========================\n");
+        	
+            System.out.println("Running bidirectional A*\n--------------------------");
+            Config.MMε=0;
             start = Instant.now();
             Node[] solution1 = BidiAStarSearch.biDirectionalSolve(initial, goal);
             end = Instant.now();
@@ -80,10 +83,24 @@ public class Puzzle {
             System.out.print("\n");
             
             System.out.println("Running MM\n----------");
+            Config.MMε=0;
             start = Instant.now();
             Node[] solution2 = MMsearch.MMSolve(initial, goal);
             end = Instant.now();
             if (solution2 == null) {
+                System.out.println("No solution Found!");
+            } else {
+            	System.out.println("Run time: " + Duration.between(start, end));
+            }
+            
+            System.out.print("\n");
+            
+            System.out.println("Running MMε\n----------");
+            Config.MMε=1;
+            start = Instant.now();
+            Node[] solution3 = MMsearch.MMSolve(initial, goal);
+            end = Instant.now();
+            if (solution3 == null) {
                 System.out.println("No solution Found!");
             } else {
             	System.out.println("Run time: " + Duration.between(start, end));
