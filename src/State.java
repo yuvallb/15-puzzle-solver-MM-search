@@ -199,6 +199,9 @@ public class State {
      */
     public short h(State goal)
     {
+    	if (!Config.LinearConflict) {
+    		return manhattanDistance(goal);
+    	}
         // Required number moves to remove all linear conflicts
         int reqMoves = 0;
         

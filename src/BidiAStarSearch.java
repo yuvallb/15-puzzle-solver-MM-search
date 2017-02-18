@@ -8,8 +8,6 @@ import java.util.Queue;
 public class BidiAStarSearch {
 	
     
-    // Weighting of heuristic in A* search
-    static final double HWEIGHT = 1;
 
     /**
      * Solve 15-puzzle using bidirectional A* search
@@ -52,7 +50,7 @@ public class BidiAStarSearch {
             closedHash.add(new HashMap<State, Node>());
             
             // Add initial node to the open set
-            Node n = new Node(initial[i], null, null, (short)(initial[i].h(goal[i]) * HWEIGHT));
+            Node n = new Node(initial[i], null, null, (short)(initial[i].h(goal[i]) * Config.WA));
             openHash.get(i).put(initial[i], n);
             openHeap.get(i).add(n);
         }
@@ -84,7 +82,7 @@ public class BidiAStarSearch {
                 // If the new state is not already in the open set
                 if (!openHash.get(i).containsKey(newState)) {
                     // Create a new Node for this state
-                    Node newNode = new Node(newState, n, op, (short)(newState.h(goal[i]) * HWEIGHT));
+                    Node newNode = new Node(newState, n, op, (short)(newState.h(goal[i]) * Config.WA));
                     
                     // Check for a match in the nodes of the opposite direction
                     Node matchedNode = null;
