@@ -31,38 +31,44 @@ public class MMsearch {
         
         // Min-heap for removing the node from the open set with the
         // smallest f-score.
-        List<Queue<Node>> fOpenHeap = new ArrayList<>(2);
-        List<Queue<Node>> gOpenHeap = new ArrayList<>(2);
-        List<Queue<Node>> prOpenHeap = new ArrayList<>(2);
+        List<Queue<Node>> fOpenHeap = new ArrayList<Queue<Node>>(2);
+        List<Queue<Node>> gOpenHeap = new ArrayList<Queue<Node>>(2);
+        List<Queue<Node>> prOpenHeap = new ArrayList<Queue<Node>>(2);
         
         // set comparators. by f is built in the Node object
-		Comparator<Node> byG = (Node a, Node b) -> {
-	        if (a.getDepth() < b.getDepth()) {
-	            return -1;
-	        } else if (a.getDepth() == b.getDepth()) {
-	            return 0;
-	        } else {
-	            return 1;
-	        }	    };
-		Comparator<Node> byPriorityAndG = (Node a, Node b) -> {
-	        if (a.getPriority() < b.getPriority())
-	            return -1;
-	        else if (a.getPriority() == b.getPriority()){
-		        if (a.getDepth() < b.getDepth()) {
-		            return -1;
-		        } else if (a.getDepth() == b.getDepth()) {
-		            return 0;
-		        } else {
-		            return 1;
-		        }
-		    } else
-	            return 1;
-	    };
+		Comparator<Node> byG = new Comparator<Node>() {
+			@Override
+			public int compare(Node a, Node b) {
+			    if (a.getDepth() < b.getDepth()) {
+			        return -1;
+			    } else if (a.getDepth() == b.getDepth()) {
+			        return 0;
+			    } else {
+			        return 1;
+			    }	    }
+		};
+		Comparator<Node> byPriorityAndG = new Comparator<Node>() {
+			@Override
+			public int compare(Node a, Node b) {
+			    if (a.getPriority() < b.getPriority())
+			        return -1;
+			    else if (a.getPriority() == b.getPriority()){
+			        if (a.getDepth() < b.getDepth()) {
+			            return -1;
+			        } else if (a.getDepth() == b.getDepth()) {
+			            return 0;
+			        } else {
+			            return 1;
+			        }
+			    } else
+			        return 1;
+			}
+		};
 	    
         // Hash tables with States as keys and Nodes as data for
         // checking if a state is in the open or closed set.
-        List<Map<State, Node>> openHash = new ArrayList<>(2);
-        List<Map<State, Node>> closedHash = new ArrayList<>(2);
+        List<Map<State, Node>> openHash = new ArrayList<Map<State, Node>>(2);
+        List<Map<State, Node>> closedHash = new ArrayList<Map<State, Node>>(2);
         
         // Initial and goal states
         State[] initial = new State[] {fwdInitial, fwdGoal};

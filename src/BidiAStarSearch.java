@@ -31,12 +31,12 @@ public class BidiAStarSearch {
         
         // Min-heap for removing the node from the open set with the
         // smallest f-score.
-        List<Queue<Node>> openHeap = new ArrayList<>(2);
+        List<Queue<Node>> openHeap = new ArrayList<Queue<Node>>(2);
         
         // Hash tables with States as keys and Nodes as data for
         // checking if a state is in the open or closed set.
-        List<Map<State, Node>> openHash = new ArrayList<>(2);
-        List<Map<State, Node>> closedHash = new ArrayList<>(2);
+        List<Map<State, Node>> openHash = new ArrayList<Map<State, Node>>(2);
+        List<Map<State, Node>> closedHash = new ArrayList<Map<State, Node>>(2);
         
         // Initial and goal states
         State[] initial = new State[] {fwdInitial, fwdGoal};

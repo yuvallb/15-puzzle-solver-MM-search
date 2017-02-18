@@ -17,7 +17,7 @@ public class Puzzle {
 	public static void main(String args[]) {
 
 		// Initial states of puzzles to solve
-		List<State> initials = new ArrayList<>();
+		List<State> initials = new ArrayList<State>();
 
 		if (args.length < 1) {
 			System.out.println("Error: no input file given");
