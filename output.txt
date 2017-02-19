@@ -96,14 +96,14 @@ Nodes Generated: 75 (42 open/33 closed)
 Path length: 13
 Run time: PT0.001S
 
-Running MM? manhattanDistance+linearConflict
+Running MMε manhattanDistance+linearConflict
 --------------------------
 Found path: Forward depth:7 backward depth: 6
 Nodes Generated: 50 (29 open/21 closed)
 Path length: 13
-Run time: PT0S
+Run time: PT0.001S
 
-Running MM? manhattanDistance
+Running MMε manhattanDistance
 --------------------------
 Found path: Forward depth:7 backward depth: 6
 Nodes Generated: 75 (42 open/33 closed)
@@ -199,30 +199,30 @@ Run time: PT0.004S
 Running MM manhattanDistance+linearConflict
 --------------------------
 Found path: Forward depth:15 backward depth: 15
-Nodes Generated: 4973 (2471 open/2502 closed)
+Nodes Generated: 4808 (2399 open/2409 closed)
 Path length: 30
-Run time: PT0.035S
+Run time: PT0.025S
 
 Running MM manhattanDistance
 --------------------------
 Found path: Forward depth:15 backward depth: 15
-Nodes Generated: 9444 (4749 open/4695 closed)
+Nodes Generated: 9450 (4749 open/4701 closed)
 Path length: 30
-Run time: PT0.04S
+Run time: PT0.028S
 
-Running MM? manhattanDistance+linearConflict
+Running MMε manhattanDistance+linearConflict
 --------------------------
 Found path: Forward depth:15 backward depth: 15
-Nodes Generated: 4973 (2471 open/2502 closed)
+Nodes Generated: 4808 (2399 open/2409 closed)
 Path length: 30
-Run time: PT0.026S
+Run time: PT0.028S
 
-Running MM? manhattanDistance
+Running MMε manhattanDistance
 --------------------------
 Found path: Forward depth:15 backward depth: 15
-Nodes Generated: 9444 (4749 open/4695 closed)
+Nodes Generated: 9450 (4749 open/4701 closed)
 Path length: 30
-Run time: PT0.033S
+Run time: PT0.024S
 
 
 ==========================
@@ -313,30 +313,30 @@ Run time: PT0.009S
 Running MM manhattanDistance+linearConflict
 --------------------------
 Found path: Forward depth:21 backward depth: 22
-Nodes Generated: 100358 (48374 open/51984 closed)
+Nodes Generated: 100141 (48270 open/51871 closed)
 Path length: 43
-Run time: PT1.128S
+Run time: PT0.658S
 
 Running MM manhattanDistance
 --------------------------
 Found path: Forward depth:21 backward depth: 22
-Nodes Generated: 364140 (171668 open/192472 closed)
+Nodes Generated: 369259 (173846 open/195413 closed)
 Path length: 43
-Run time: PT11.972S
+Run time: PT7.215S
 
-Running MM? manhattanDistance+linearConflict
+Running MMε manhattanDistance+linearConflict
 --------------------------
 Found path: Forward depth:22 backward depth: 21
-Nodes Generated: 108189 (52010 open/56179 closed)
+Nodes Generated: 104430 (50224 open/54206 closed)
 Path length: 43
-Run time: PT1.298S
+Run time: PT0.75S
 
-Running MM? manhattanDistance
+Running MMε manhattanDistance
 --------------------------
 Found path: Forward depth:22 backward depth: 21
-Nodes Generated: 393850 (185080 open/208770 closed)
+Nodes Generated: 393231 (184810 open/208421 closed)
 Path length: 43
-Run time: PT14.786S
+Run time: PT8.542S
 
 
 ==========================
@@ -430,7 +430,7 @@ Found path: Forward depth:18 backward depth: 17
 Found path: Forward depth:18 backward depth: 17
 Nodes Generated: 9595 (4786 open/4809 closed)
 Path length: 35
-Run time: PT0.025S
+Run time: PT0.016S
 
 Running MM manhattanDistance
 --------------------------
@@ -438,21 +438,21 @@ Found path: Forward depth:18 backward depth: 17
 Found path: Forward depth:18 backward depth: 17
 Nodes Generated: 18604 (9287 open/9317 closed)
 Path length: 35
-Run time: PT0.051S
+Run time: PT0.03S
 
-Running MM? manhattanDistance+linearConflict
+Running MMε manhattanDistance+linearConflict
 --------------------------
 Found path: Forward depth:18 backward depth: 17
-Nodes Generated: 19137 (9475 open/9662 closed)
+Nodes Generated: 19192 (9511 open/9681 closed)
 Path length: 35
-Run time: PT0.073S
+Run time: PT0.044S
 
-Running MM? manhattanDistance
+Running MMε manhattanDistance
 --------------------------
 Found path: Forward depth:18 backward depth: 17
-Nodes Generated: 34526 (17013 open/17513 closed)
+Nodes Generated: 35419 (17414 open/18005 closed)
 Path length: 35
-Run time: PT0.157S
+Run time: PT0.093S
 
 
 ==========================
@@ -546,7 +546,7 @@ Found path: Forward depth:25 backward depth: 25
 Found path: Forward depth:25 backward depth: 25
 Nodes Generated: 482778 (222234 open/260544 closed)
 Path length: 50
-Run time: PT20.564S
+Run time: PT11.76S
 
 Running MM manhattanDistance
 --------------------------
@@ -555,24 +555,24 @@ Found path: Forward depth:25 backward depth: 25
 Found path: Forward depth:25 backward depth: 25
 Nodes Generated: 2398242 (1120004 open/1278238 closed)
 Path length: 50
-Run time: PT10M53.086S
+Run time: PT4M51.299S
 
-Running MM? manhattanDistance+linearConflict
+Running MMε manhattanDistance+linearConflict
 --------------------------
 Found path: Forward depth:25 backward depth: 25
 Found path: Forward depth:25 backward depth: 25
 Nodes Generated: 482778 (222234 open/260544 closed)
 Path length: 50
-Run time: PT21.526S
+Run time: PT12.169S
 
-Running MM? manhattanDistance
+Running MMε manhattanDistance
 --------------------------
 Found path: Forward depth:25 backward depth: 25
 Found path: Forward depth:25 backward depth: 25
 Found path: Forward depth:25 backward depth: 25
 Nodes Generated: 2398242 (1120004 open/1278238 closed)
 Path length: 50
-Run time: PT10M53.368S
+Run time: PT4M44.449S
 
 
 ==========================

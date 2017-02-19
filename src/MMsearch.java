@@ -160,7 +160,7 @@ public class MMsearch {
                 	// the child is in the open or closed list 
                 	if (newNode != null) { 
                 		// test if cost is lower now
-                		if (newNode.getFScore() <= n.getFScore() + 1) {
+                		if (newNode.getDepth() <= n.getDepth() + 1) {
                 			continue;
                 		}
                 		openHash.get(dir).remove(newState); 
@@ -168,6 +168,9 @@ public class MMsearch {
                 		gOpenHeap.get(dir).remove(newNode);
                 		prOpenHeap.get(dir).remove(newNode);
                 		closedHash.get(dir).remove(newState);
+                		newNode.setDepth((short) (n.getDepth()+1));
+                		newNode.setBackPtr(n);
+                		newNode.setOp(op);
                 	}
                 }
                 
