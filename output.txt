@@ -599,3 +599,66 @@ Run time: PT47.612S
 
 Running bidirectional A* using manhattanDistance 
 --------------------------
+Found path: Forward depth:37 backward depth: 36
+Nodes Generated: 10066973 (4537389 open/5529584 closed)
+Path Length: 73
+Run time: PT4M50.04S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:18 backward depth: 49
+Nodes Generated: 1840232 (864642 open/975590 closed)
+Path Length: 67
+Run time: PT8.886S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:41 backward depth: 26
+Nodes Generated: 4220306 (1920839 open/2299467 closed)
+Path Length: 67
+Run time: PT28.926S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:58 backward depth: 11
+Nodes Generated: 228125 (109134 open/118991 closed)
+Path Length: 69
+Run time: PT0.545S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:26 backward depth: 41
+Nodes Generated: 1373529 (632261 open/741268 closed)
+Path Length: 67
+Run time: PT5.912S
+
+Running bidirectional WA* (W=2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:1 backward depth: 80
+Nodes Generated: 6040 (3022 open/3018 closed)
+Path Length: 81
+Run time: PT0.011S
+
+Running bidirectional WA* (W=2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:24 backward depth: 59
+Nodes Generated: 329421 (155739 open/173682 closed)
+Path Length: 83
+Run time: PT0.629S
+
+Running bidirectional WA* (W=4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:120 backward depth: 1
+Nodes Generated: 15375 (7630 open/7745 closed)
+Path Length: 121
+Run time: PT0.029S
+
+Running bidirectional WA* (W=4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:5 backward depth: 92
+Nodes Generated: 16083 (8009 open/8074 closed)
+Path Length: 97
+Run time: PT0.018S
+
+Running MM manhattanDistance+linearConflict
+--------------------------
