@@ -1,0 +1,601 @@
+Initial state: 
+ 2 10  3 [] 
+ 1  6  8  4 
+ 5  9  7 12 
+13 14 11 15 
+
+========================
+
+Running unidirectional IDA* using manhattanDistance+linearConflict
+--------------------------
+Elapsed time:         0.008 s
+States explored:      94
+Shortest path:        13 moves
+
+Running bidirectional A* using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:8 backward depth: 5
+Nodes Generated: 48 (27 open/21 closed)
+Path Length: 13
+Run time: PT0.003S
+
+Running bidirectional A* using manhattanDistance 
+--------------------------
+Found path: Forward depth:7 backward depth: 6
+Nodes Generated: 73 (40 open/33 closed)
+Path Length: 13
+Run time: PT0.001S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:6 backward depth: 7
+Nodes Generated: 41 (23 open/18 closed)
+Path Length: 13
+Run time: PT0.001S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:6 backward depth: 7
+Nodes Generated: 57 (32 open/25 closed)
+Path Length: 13
+Run time: PT0.001S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:6 backward depth: 7
+Nodes Generated: 41 (24 open/17 closed)
+Path Length: 13
+Run time: PT0.001S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:6 backward depth: 7
+Nodes Generated: 57 (32 open/25 closed)
+Path Length: 13
+Run time: PT0.001S
+
+Running bidirectional WA* (W=2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:5 backward depth: 8
+Nodes Generated: 39 (23 open/16 closed)
+Path Length: 13
+Run time: PT0.001S
+
+Running bidirectional WA* (W=2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:5 backward depth: 8
+Nodes Generated: 55 (31 open/24 closed)
+Path Length: 13
+Run time: PT0S
+
+Running bidirectional WA* (W=4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:5 backward depth: 8
+Nodes Generated: 41 (24 open/17 closed)
+Path Length: 13
+Run time: PT0S
+
+Running bidirectional WA* (W=4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:4 backward depth: 9
+Nodes Generated: 69 (38 open/31 closed)
+Path Length: 13
+Run time: PT0.001S
+
+Running MM manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:7 backward depth: 6
+Nodes Generated: 50 (29 open/21 closed)
+Path length: 13
+Run time: PT0.002S
+
+Running MM manhattanDistance
+--------------------------
+Found path: Forward depth:7 backward depth: 6
+Nodes Generated: 75 (42 open/33 closed)
+Path length: 13
+Run time: PT0.001S
+
+Running MM? manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:7 backward depth: 6
+Nodes Generated: 50 (29 open/21 closed)
+Path length: 13
+Run time: PT0S
+
+Running MM? manhattanDistance
+--------------------------
+Found path: Forward depth:7 backward depth: 6
+Nodes Generated: 75 (42 open/33 closed)
+Path length: 13
+Run time: PT0S
+
+
+==========================
+Initial state: 
+ 2 11  3 10 
+ 1  9  4 [] 
+ 6 13  7  8 
+ 5 14 15 12 
+
+========================
+
+Running unidirectional IDA* using manhattanDistance+linearConflict
+--------------------------
+Elapsed time:         0.035 s
+States explored:      7,962
+Shortest path:        30 moves
+
+Running bidirectional A* using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:14 backward depth: 18
+Nodes Generated: 1867 (957 open/910 closed)
+Path Length: 32
+Run time: PT0.013S
+
+Running bidirectional A* using manhattanDistance 
+--------------------------
+Found path: Forward depth:11 backward depth: 21
+Nodes Generated: 2881 (1493 open/1388 closed)
+Path Length: 32
+Run time: PT0.01S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:13 backward depth: 19
+Nodes Generated: 748 (390 open/358 closed)
+Path Length: 32
+Run time: PT0.004S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:11 backward depth: 21
+Nodes Generated: 1389 (723 open/666 closed)
+Path Length: 32
+Run time: PT0.005S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:11 backward depth: 21
+Nodes Generated: 516 (270 open/246 closed)
+Path Length: 32
+Run time: PT0.003S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:4 backward depth: 26
+Nodes Generated: 1786 (934 open/852 closed)
+Path Length: 30
+Run time: PT0.006S
+
+Running bidirectional WA* (W=2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:4 backward depth: 28
+Nodes Generated: 603 (315 open/288 closed)
+Path Length: 32
+Run time: PT0.004S
+
+Running bidirectional WA* (W=2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:4 backward depth: 28
+Nodes Generated: 1212 (638 open/574 closed)
+Path Length: 32
+Run time: PT0.003S
+
+Running bidirectional WA* (W=4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:4 backward depth: 36
+Nodes Generated: 598 (314 open/284 closed)
+Path Length: 40
+Run time: PT0.003S
+
+Running bidirectional WA* (W=4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:4 backward depth: 36
+Nodes Generated: 1909 (1003 open/906 closed)
+Path Length: 40
+Run time: PT0.004S
+
+Running MM manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:15 backward depth: 15
+Nodes Generated: 4973 (2471 open/2502 closed)
+Path length: 30
+Run time: PT0.035S
+
+Running MM manhattanDistance
+--------------------------
+Found path: Forward depth:15 backward depth: 15
+Nodes Generated: 9444 (4749 open/4695 closed)
+Path length: 30
+Run time: PT0.04S
+
+Running MM? manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:15 backward depth: 15
+Nodes Generated: 4973 (2471 open/2502 closed)
+Path length: 30
+Run time: PT0.026S
+
+Running MM? manhattanDistance
+--------------------------
+Found path: Forward depth:15 backward depth: 15
+Nodes Generated: 9444 (4749 open/4695 closed)
+Path length: 30
+Run time: PT0.033S
+
+
+==========================
+Initial state: 
+ 5  1 15  2 
+[] 11 14  7 
+ 4  6  3  9 
+10 13 12  8 
+
+========================
+
+Running unidirectional IDA* using manhattanDistance+linearConflict
+--------------------------
+Elapsed time:         0.104 s
+States explored:      87,313
+Shortest path:        43 moves
+
+Running bidirectional A* using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:20 backward depth: 25
+Nodes Generated: 25183 (12534 open/12649 closed)
+Path Length: 45
+Run time: PT0.092S
+
+Running bidirectional A* using manhattanDistance 
+--------------------------
+Found path: Forward depth:17 backward depth: 28
+Nodes Generated: 34250 (16836 open/17414 closed)
+Path Length: 45
+Run time: PT0.045S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:36 backward depth: 13
+Nodes Generated: 8719 (4390 open/4329 closed)
+Path Length: 49
+Run time: PT0.016S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:28 backward depth: 21
+Nodes Generated: 22105 (10878 open/11227 closed)
+Path Length: 49
+Run time: PT0.026S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:38 backward depth: 13
+Nodes Generated: 4706 (2407 open/2299 closed)
+Path Length: 51
+Run time: PT0.01S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:11 backward depth: 38
+Nodes Generated: 21261 (10547 open/10714 closed)
+Path Length: 49
+Run time: PT0.023S
+
+Running bidirectional WA* (W=2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:1 backward depth: 48
+Nodes Generated: 767 (405 open/362 closed)
+Path Length: 49
+Run time: PT0.001S
+
+Running bidirectional WA* (W=2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:1 backward depth: 52
+Nodes Generated: 39468 (19914 open/19554 closed)
+Path Length: 53
+Run time: PT0.052S
+
+Running bidirectional WA* (W=4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:1 backward depth: 62
+Nodes Generated: 1284 (674 open/610 closed)
+Path Length: 63
+Run time: PT0.002S
+
+Running bidirectional WA* (W=4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:64 backward depth: 1
+Nodes Generated: 7769 (3958 open/3811 closed)
+Path Length: 65
+Run time: PT0.009S
+
+Running MM manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:21 backward depth: 22
+Nodes Generated: 100358 (48374 open/51984 closed)
+Path length: 43
+Run time: PT1.128S
+
+Running MM manhattanDistance
+--------------------------
+Found path: Forward depth:21 backward depth: 22
+Nodes Generated: 364140 (171668 open/192472 closed)
+Path length: 43
+Run time: PT11.972S
+
+Running MM? manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:22 backward depth: 21
+Nodes Generated: 108189 (52010 open/56179 closed)
+Path length: 43
+Run time: PT1.298S
+
+Running MM? manhattanDistance
+--------------------------
+Found path: Forward depth:22 backward depth: 21
+Nodes Generated: 393850 (185080 open/208770 closed)
+Path length: 43
+Run time: PT14.786S
+
+
+==========================
+Initial state: 
+ 5  1  3 14 
+10  9  8  4 
+ 7 []  2 12 
+11 13  6 15 
+
+========================
+
+Running unidirectional IDA* using manhattanDistance+linearConflict
+--------------------------
+Elapsed time:         0.008 s
+States explored:      31,570
+Shortest path:        35 moves
+
+Running bidirectional A* using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:15 backward depth: 22
+Nodes Generated: 2675 (1357 open/1318 closed)
+Path Length: 37
+Run time: PT0.005S
+
+Running bidirectional A* using manhattanDistance 
+--------------------------
+Found path: Forward depth:12 backward depth: 27
+Nodes Generated: 2298 (1196 open/1102 closed)
+Path Length: 39
+Run time: PT0.002S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:12 backward depth: 27
+Nodes Generated: 1154 (602 open/552 closed)
+Path Length: 39
+Run time: PT0.002S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:15 backward depth: 22
+Nodes Generated: 2332 (1201 open/1131 closed)
+Path Length: 37
+Run time: PT0.002S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:11 backward depth: 30
+Nodes Generated: 511 (271 open/240 closed)
+Path Length: 41
+Run time: PT0.001S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:11 backward depth: 28
+Nodes Generated: 1250 (644 open/606 closed)
+Path Length: 39
+Run time: PT0.002S
+
+Running bidirectional WA* (W=2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:35 backward depth: 6
+Nodes Generated: 673 (356 open/317 closed)
+Path Length: 41
+Run time: PT0.001S
+
+Running bidirectional WA* (W=2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:2 backward depth: 35
+Nodes Generated: 1949 (1017 open/932 closed)
+Path Length: 37
+Run time: PT0.002S
+
+Running bidirectional WA* (W=4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:1 backward depth: 44
+Nodes Generated: 559 (297 open/262 closed)
+Path Length: 45
+Run time: PT0.001S
+
+Running bidirectional WA* (W=4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:48 backward depth: 1
+Nodes Generated: 3428 (1787 open/1641 closed)
+Path Length: 49
+Run time: PT0.004S
+
+Running MM manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:18 backward depth: 17
+Found path: Forward depth:18 backward depth: 17
+Nodes Generated: 9595 (4786 open/4809 closed)
+Path length: 35
+Run time: PT0.025S
+
+Running MM manhattanDistance
+--------------------------
+Found path: Forward depth:18 backward depth: 17
+Found path: Forward depth:18 backward depth: 17
+Nodes Generated: 18604 (9287 open/9317 closed)
+Path length: 35
+Run time: PT0.051S
+
+Running MM? manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:18 backward depth: 17
+Nodes Generated: 19137 (9475 open/9662 closed)
+Path length: 35
+Run time: PT0.073S
+
+Running MM? manhattanDistance
+--------------------------
+Found path: Forward depth:18 backward depth: 17
+Nodes Generated: 34526 (17013 open/17513 closed)
+Path length: 35
+Run time: PT0.157S
+
+
+==========================
+Initial state: 
+15 12 []  8 
+ 9  4  3 10 
+ 5  1  6 11 
+ 7  2 13 14 
+
+========================
+
+Running unidirectional IDA* using manhattanDistance+linearConflict
+--------------------------
+Elapsed time:         0.355 s
+States explored:      3,565,946
+Shortest path:        50 moves
+
+Running bidirectional A* using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:18 backward depth: 34
+Nodes Generated: 44910 (21250 open/23660 closed)
+Path Length: 52
+Run time: PT0.084S
+
+Running bidirectional A* using manhattanDistance 
+--------------------------
+Found path: Forward depth:26 backward depth: 28
+Nodes Generated: 182376 (88620 open/93756 closed)
+Path Length: 54
+Run time: PT0.278S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:14 backward depth: 38
+Nodes Generated: 15458 (7478 open/7980 closed)
+Path Length: 52
+Run time: PT0.027S
+
+Running bidirectional WA* (W=1.2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:28 backward depth: 26
+Nodes Generated: 88470 (43404 open/45066 closed)
+Path Length: 54
+Run time: PT0.116S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:16 backward depth: 38
+Nodes Generated: 7871 (3927 open/3944 closed)
+Path Length: 54
+Run time: PT0.013S
+
+Running bidirectional WA* (W=1.4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:13 backward depth: 45
+Nodes Generated: 56171 (27991 open/28180 closed)
+Path Length: 58
+Run time: PT0.071S
+
+Running bidirectional WA* (W=2) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:10 backward depth: 48
+Nodes Generated: 3542 (1822 open/1720 closed)
+Path Length: 58
+Run time: PT0.006S
+
+Running bidirectional WA* (W=2) using manhattanDistance 
+--------------------------
+Found path: Forward depth:59 backward depth: 1
+Nodes Generated: 21709 (11100 open/10609 closed)
+Path Length: 60
+Run time: PT0.025S
+
+Running bidirectional WA* (W=4) using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:68 backward depth: 2
+Nodes Generated: 642 (335 open/307 closed)
+Path Length: 70
+Run time: PT0.001S
+
+Running bidirectional WA* (W=4) using manhattanDistance 
+--------------------------
+Found path: Forward depth:74 backward depth: 4
+Nodes Generated: 15642 (7915 open/7727 closed)
+Path Length: 78
+Run time: PT0.019S
+
+Running MM manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:25 backward depth: 25
+Found path: Forward depth:25 backward depth: 25
+Nodes Generated: 482778 (222234 open/260544 closed)
+Path length: 50
+Run time: PT20.564S
+
+Running MM manhattanDistance
+--------------------------
+Found path: Forward depth:25 backward depth: 25
+Found path: Forward depth:25 backward depth: 25
+Found path: Forward depth:25 backward depth: 25
+Nodes Generated: 2398242 (1120004 open/1278238 closed)
+Path length: 50
+Run time: PT10M53.086S
+
+Running MM? manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:25 backward depth: 25
+Found path: Forward depth:25 backward depth: 25
+Nodes Generated: 482778 (222234 open/260544 closed)
+Path length: 50
+Run time: PT21.526S
+
+Running MM? manhattanDistance
+--------------------------
+Found path: Forward depth:25 backward depth: 25
+Found path: Forward depth:25 backward depth: 25
+Found path: Forward depth:25 backward depth: 25
+Nodes Generated: 2398242 (1120004 open/1278238 closed)
+Path length: 50
+Run time: PT10M53.368S
+
+
+==========================
+Initial state: 
+ 4  3  2  1 
+ 8  7  6  5 
+12 11 10  9 
+[] 14 15 13 
+
+========================
+
+Running unidirectional IDA* using manhattanDistance+linearConflict
+--------------------------
+Elapsed time:         564.157 s
+States explored:      5,574,509,003
+Shortest path:        65 moves
+
+Running bidirectional A* using manhattanDistance+linearConflict
+--------------------------
+Found path: Forward depth:36 backward depth: 29
+Nodes Generated: 4919381 (2290766 open/2628615 closed)
+Path Length: 65
+Run time: PT47.612S
+
+Running bidirectional A* using manhattanDistance 
+--------------------------
