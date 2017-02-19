@@ -27,7 +27,7 @@ public class Node implements Comparable<Node> {
             this.depth = (short)(backPtr.depth + 1);
         }
         // MM / MMε
-        priority = Math.min(2*depth+Config.MMε, depth+heuristic);
+        priority = Math.max(2*depth+Config.MMε, depth+heuristic);
     }
     
     /**
