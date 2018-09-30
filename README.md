@@ -5,13 +5,18 @@ MM search is a novel bidirectional search algorithm that always “meets in the 
 ### Background
 
 The motivation behind MM search was to create a bidirectional search algorithm that is guaranteed to meet at the middle. This guarantee is based on never expanding a node with g(n)>C*/2 – a node with a distance from the start or goal, larger than half the optimal solution. This is based on a novel priority function for retrieving nodes from the open list: prF (n) = max(fF (n), 2gF (n)) , always expanding the node with minimum priority among the forward and backward open lists. The optimality of the solution relies on the stop condition of a cost that is lower than several lower bounds (Holte et al., 2016).
-MMε is a variation of MM that may improve the number of expanded nodes under certain circumstances, such as a weaker heuristic. It is similar to MM, except for the priority function, which is now prεF (n) = max(fF (n), 2gF (n)+ εF(n)), adding the minimum operation cost to the 2g(n) expression (Sharon, Holte, Felner, & Sturtevant, 2016). This paper will examine these algorithms on the 15-tile puzzle. This puzzle is one of the classic problems in AI search. It is an exponential problem with a low branching factor, and a problem space of 10^13 states. The 15-tile puzzle was solved by (Korf, 1985) using IDA<sup>*</sup> with Manhattan distance. In this experiment, I will two heuristics: Manhattan distance, which is a simple and basic heuristic, and an improved version of Manhattan distance accounting for linear conflicts, which is more accurate. Both heuristics are admissible and consistent.
-Experimental design
+
+MMε is a variation of MM that may improve the number of expanded nodes under certain circumstances, such as a weaker heuristic. It is similar to MM, except for the priority function, which is now prεF (n) = max(fF (n), 2gF (n)+ εF(n)), adding the minimum operation cost to the 2g(n) expression (Sharon, Holte, Felner, & Sturtevant, 2016). This paper will examine these algorithms on the 15-tile puzzle. This puzzle is one of the classic problems in AI search. It is an exponential problem with a low branching factor, and a problem space of 10<sup>13</sup> states. The 15-tile puzzle was solved by (Korf, 1985) using IDA<sup>*</sup> with Manhattan distance. In this experiment, I will two heuristics: Manhattan distance, which is a simple and basic heuristic, and an improved version of Manhattan distance accounting for linear conflicts, which is more accurate. Both heuristics are admissible and consistent.
+
+### Experimental design
 The experiment was done on 6 instances of the 15-tile puzzle, in an increasing difficulty level, from a puzzle instance that requires 13 steps, to an instance that requires 65 steps. For each layout instance, a benchmark was set using an IDA<sup>*</sup> search. This benchmark was used to define the optimal solution cost.
+
 After stipulating the optimal path cost, three bidirectional search algorithms were tested on each puzzle instance: bidirectional A*, MM and MMε.
+
 To examine how heuristic accuracy affects the algorithm efficiency - each algorithm was deployed twice: once using Manhattan distance with linear conflict, and another time using Manhattan distance only, which is a weaker heuristic.
+
 The total number of runs was: 6 benchmarks + 6 instances x 3 algorithms x 2 heuristics. Additional exploratory runs were done using bidirectional weighted A<sup>*</sup> with a range of weight values from 1.2 to 4.
-The software used for running the experiments was written in Java. The source code was made publically available at: https://github.com/yuvallb/15-puzzle-solver.
+
 Original source code for bidirectional A<sup>*</sup> was taken from (Senecal, 2014).
 The benchmark IDA<sup>*</sup> was done using Java code based on (Borowski, 2013).
  
@@ -40,7 +45,7 @@ Table 1: Comparing performace of bidirectional search algorithms on the 15 puzzl
 The comparison of MM to bidirectional A<sup>*</sup> was done in order to compare two bidirectional searches. However, this comparison lacks since bidirectional A<sup>*</sup> returns suboptimal solutions. Table 2 compares the number of nodes expanded in MM to unidirectional A<sup>*</sup> and IDA<sup>*</sup> with the same heuristic. The best result is highlighted in bold. Also displayed in the table is the MM0 upper bound: 2*bC*/2 (b=3, the static branching factor).
 As expected, IDA<sup>*</sup> always expands more nodes than A*, due to its iterative nature of reopening nodes. MM outperforms A<sup>*</sup> in 3 of out 5 instances.
 
-|C<sup>*</sup>|A<sup>*</sup>      |IDA<sup>*</sup>   |MM         |MMε        |2x3^C*/2^|
+|C<sup>*</sup>|A<sup>*</sup>      |IDA<sup>*</sup>   |MM         |MMε        |2x3<sup>C*/2</sup>|
 |----|----------|---------|-----------|-----------|---------|
 |13  |__37__    |94       |50         |50         |2,525    |
 |30  |5,179     |7,962    |__4,808__  |__4,808__  |2.8e7    |
